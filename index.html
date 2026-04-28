@@ -46,33 +46,45 @@
     .bg-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(100px);
+      filter: blur(90px);
     }
 
     .bg-orb-1 {
-      width: 700px; height: 700px;
-      top: -250px; right: -150px;
-      background: radial-gradient(circle, rgba(255,77,28,0.08) 0%, transparent 70%);
+      width: 800px; height: 800px;
+      top: -300px; right: -200px;
+      background: radial-gradient(circle, rgba(255,77,28,0.14) 0%, transparent 70%);
     }
 
     .bg-orb-2 {
-      width: 600px; height: 600px;
-      bottom: 5%; left: -200px;
-      background: radial-gradient(circle, rgba(255,184,0,0.06) 0%, transparent 70%);
+      width: 700px; height: 700px;
+      bottom: 0%; left: -250px;
+      background: radial-gradient(circle, rgba(255,184,0,0.11) 0%, transparent 70%);
     }
 
     .bg-orb-3 {
+      width: 600px; height: 600px;
+      top: 40%; left: 30%;
+      background: radial-gradient(circle, rgba(80,120,255,0.09) 0%, transparent 70%);
+    }
+
+    .bg-orb-4 {
       width: 500px; height: 500px;
-      top: 45%; left: 35%;
-      background: radial-gradient(circle, rgba(80,120,255,0.05) 0%, transparent 70%);
+      top: 70%; right: 10%;
+      background: radial-gradient(circle, rgba(255,77,28,0.08) 0%, transparent 70%);
+    }
+
+    .bg-orb-5 {
+      width: 450px; height: 450px;
+      top: 20%; left: 15%;
+      background: radial-gradient(circle, rgba(120,60,255,0.07) 0%, transparent 70%);
     }
 
     .bg-grid {
       position: absolute;
       inset: 0;
       background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
       background-size: 56px 56px;
     }
 
@@ -508,8 +520,73 @@
     .footer-logo span { color: var(--accent); }
     .footer-copy { font-size: 0.72rem; color: var(--muted); }
 
-    /* REVEAL */
-    .reveal {
+    .about-heading {
+      font-family: var(--heading);
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    /* GOOD MAP SECTION */
+    .goodmap-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .goodmap-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .goodmap-card {
+      background: var(--surface);
+      padding: 2.5rem 3rem;
+      transition: background 0.2s;
+      position: relative;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .goodmap-card:hover { background: var(--surface2); }
+
+    .goodmap-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s;
+    }
+
+    .goodmap-card:hover::before { transform: scaleY(1); }
+
+    .goodmap-title {
+      font-family: var(--heading);
+      font-size: 2rem;
+      letter-spacing: 0.04em;
+      color: var(--text);
+    }
+
+    .goodmap-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .goodmap-card { grid-template-columns: 1fr; gap: 0.75rem; padding: 1.75rem; }
+    }
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.55s ease, transform 0.55s ease;
@@ -537,13 +614,14 @@
     <div class="bg-orb bg-orb-1"></div>
     <div class="bg-orb bg-orb-2"></div>
     <div class="bg-orb bg-orb-3"></div>
+    <div class="bg-orb bg-orb-4"></div>
+    <div class="bg-orb bg-orb-5"></div>
   </div>
 
   <!-- NAV -->
   <nav>
     <ul>
       <li><a href="#work">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -555,13 +633,13 @@
 
         <div class="about-identity reveal">
           <div class="about-tag">Hammer++ Level Designer</div>
+          <h2 class="about-heading">About Me</h2>
           <p class="about-role">
             Hey! My name is Blixer<br><br>
             I've been mapping since June of 2024, understanding the engine bit by bit, slowly learning what makes a map truly realistic. I started with making extremely small projects, building up to much bigger and more in-depth projects.
           </p>
           <div class="about-ctas">
             <a href="#work" class="btn-primary">View My Maps</a>
-            <a href="#contact" class="btn-ghost">Get in Touch</a>
           </div>
         </div>
 
@@ -570,13 +648,50 @@
       <div class="skills-strip reveal">
         <p class="skills-label">Skills & Tools</p>
         <div class="skills-pills">
-          <span class="pill hot">Hammer++</span>
+          <span class="pill">Hammer++</span>
           <span class="pill">Source Engine</span>
           <span class="pill">VTF Edit</span>
           <span class="pill">Env Lighting</span>
           <span class="pill">Optimization</span>
           <span class="pill">Displacements</span>
         </div>
+      </div>
+    </section>
+
+    <!-- WHAT MAKES A GOOD MAP -->
+    <div class="section-divider reveal" style="max-width:1400px; margin: 0 auto; padding: 0 2rem 0;">
+      <h2 class="section-divider-title">What Makes a Good Map</h2>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <section class="goodmap-section">
+      <div class="goodmap-grid">
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Realistic Layout</h3>
+          <p class="goodmap-desc">Spaces need to make sense and every room should have a reason to exist. If you can't explain why something is there, it probably shouldn't be.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Lighting</h3>
+          <p class="goodmap-desc">Lighting is incredibly important in a map. It sets the overall feel for the entire map — if the lighting is bad, it completely ruins the immersion for players.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Roleplay Potential</h3>
+          <p class="goodmap-desc">A locked room, a messy desk or area, a hole in a wall leading to somewhere unexpected — all help make the players feel more immersed within the map, and helps create a story and an in-depth background to the map.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Optimization</h3>
+          <p class="goodmap-desc">If not one of the most important things — if the map has terrible performance, it not only ruins aspects such as combat and immersion, but the overall quality of the entire server.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Detail</h3>
+          <p class="goodmap-desc">Small things REALLY add up to make the server feel truly realistic. Things like smudges on the wall, flickering lights, stains on the ground — all help create a background and a story to the environment.</p>
+        </div>
+
       </div>
     </section>
 
@@ -705,7 +820,7 @@
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(200, 190, 180, ${p.opacity * fade})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * fade})`;
         ctx.fill();
 
         if (p.life >= p.maxLife || p.y < -10 || p.x < -10 || p.x > W + 10) {
