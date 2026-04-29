@@ -4,22 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blixer — Hammer++ Level Designer</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent: #FF4D1C;
-      --accent2: #FFB800;
+      --accent: #c94a1a;
+      --accent2: #c49000;
       --bg: #0C0C0E;
       --surface: #141416;
       --surface2: #1C1C1F;
-      --border: rgba(255,255,255,0.07);
-      --border2: rgba(255,255,255,0.12);
-      --text: #EEECEA;
-      --muted: #666662;
-      --heading: 'Bebas Neue', sans-serif;
-      --body: 'DM Sans', sans-serif;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.1);
+      --text: #D8D6D2;
+      --muted: #55544f;
+      --heading: 'Sora', sans-serif;
+      --body: 'Inter', sans-serif;
     }
 
     html { scroll-behavior: smooth; }
@@ -128,9 +128,8 @@
     nav ul a {
       color: var(--muted);
       text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
       transition: color 0.2s;
     }
 
@@ -168,19 +167,18 @@
       align-items: center;
       gap: 8px;
       font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 400;
     }
 
     .about-tag::before {
       content: '';
       display: block;
-      width: 5px; height: 5px;
+      width: 4px; height: 4px;
       background: var(--accent);
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      animation: pulse 2.5s infinite;
     }
 
     @keyframes pulse {
@@ -215,12 +213,11 @@
     .btn-primary {
       background: var(--accent);
       color: #fff;
-      padding: 0.75rem 1.75rem;
+      padding: 0.7rem 1.5rem;
       text-decoration: none;
       font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 500;
+      letter-spacing: 0.04em;
+      font-weight: 400;
       transition: background 0.2s, transform 0.15s;
       border-radius: 2px;
     }
@@ -293,11 +290,11 @@
     }
 
     .skills-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
       color: var(--muted);
       margin-bottom: 1rem;
+      font-weight: 300;
     }
 
     .skills-pills {
@@ -334,16 +331,17 @@
     }
 
     .section-divider-num {
-      font-family: var(--heading);
-      font-size: 0.9rem;
-      color: var(--accent);
-      letter-spacing: 0.1em;
+      font-family: var(--body);
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 300;
     }
 
     .section-divider-title {
       font-family: var(--heading);
-      font-size: clamp(1.8rem, 3vw, 2.6rem);
-      letter-spacing: 0.04em;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
       line-height: 1;
       color: var(--text);
     }
@@ -419,8 +417,7 @@
 
     .tag {
       font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      letter-spacing: 0.02em;
       padding: 0.2rem 0.55rem;
       border-radius: 100px;
       border: 1px solid var(--border2);
@@ -432,8 +429,9 @@
 
     .map-name {
       font-family: var(--heading);
-      font-size: 1.6rem;
-      letter-spacing: 0.03em;
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0;
       color: var(--text);
       margin-bottom: 0.5rem;
     }
@@ -522,10 +520,11 @@
 
     .about-heading {
       font-family: var(--heading);
-      font-size: clamp(2.2rem, 4vw, 3.2rem);
-      letter-spacing: 0.04em;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
       color: var(--text);
-      line-height: 1;
+      line-height: 1.1;
       margin-bottom: 1rem;
     }
 
@@ -573,14 +572,15 @@
 
     .goodmap-title {
       font-family: var(--heading);
-      font-size: 2rem;
-      letter-spacing: 0.04em;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0;
       color: var(--text);
     }
 
     .goodmap-desc {
-      font-size: 0.95rem;
-      color: var(--muted);
+      font-size: 0.88rem;
+      color: #4a4946;
       line-height: 1.8;
     }
 
@@ -689,7 +689,7 @@
 
         <div class="goodmap-card reveal">
           <h3 class="goodmap-title">Detail</h3>
-          <p class="goodmap-desc">Small things REALLY add up to make the server feel truly realistic. Things like smudges on the wall, flickering lights, stains on the ground, all help create a background and a story to the environment.</p>
+          <p class="goodmap-desc">Small things really add up to make the server feel truly realistic. Things like smudges on the wall, flickering lights, stains on the ground, all help create a background and a story to the environment.</p>
         </div>
 
       </div>
@@ -709,23 +709,24 @@
             <img src="storage_sector.png" alt="Storage Sector" style="width:100%;height:100%;object-fit:cover;" />
           </div>
           <div class="map-card-body">
-            <div class="map-tags">
-              <span class="tag hot">RP</span>
-              <span class="tag">Industrial</span>
-            </div>
             <h3 class="map-name">Storage Sector</h3>
           </div>
         </div>
 
         <div class="map-card reveal">
           <div class="map-thumb">
+            <img src="nature_substation.png" alt="Nature Substation" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <div class="map-card-body">
+            <h3 class="map-name">Nature Substation</h3>
+          </div>
+        </div>
+
+        <div class="map-card reveal">
+          <div class="map-thumb">
             <span class="map-thumb-label">[ Screenshot ]</span>
           </div>
           <div class="map-card-body">
-            <div class="map-tags">
-              <span class="tag hot">RP</span>
-              <span class="tag">Industrial</span>
-            </div>
             <h3 class="map-name">rp_yourmap_name</h3>
           </div>
         </div>
@@ -735,23 +736,6 @@
             <span class="map-thumb-label">[ Screenshot ]</span>
           </div>
           <div class="map-card-body">
-            <div class="map-tags">
-              <span class="tag hot">RP</span>
-              <span class="tag">Urban</span>
-            </div>
-            <h3 class="map-name">rp_yourmap_name</h3>
-          </div>
-        </div>
-
-        <div class="map-card reveal">
-          <div class="map-thumb">
-            <span class="map-thumb-label">[ Screenshot ]</span>
-          </div>
-          <div class="map-card-body">
-            <div class="map-tags">
-              <span class="tag hot">RP</span>
-              <span class="tag">Night</span>
-            </div>
             <h3 class="map-name">rp_yourmap_name</h3>
           </div>
         </div>
