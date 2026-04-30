@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blixer — Hammer++ Level Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #c94a1a;
+      --accent2: #c49000;
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --surface2: #111113;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.1);
+      --text: #D8D6D2;
+      --muted: #55544f;
+      --heading: 'Sora', sans-serif;
+      --body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* BACKGROUND */
+    .bg-canvas {
+      display: none;
+    }
+
+    #particle-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 3rem;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--heading);
+      font-size: 1.6rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    nav ul a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--text); }
+
+    /* MAIN WRAPPER */
+    main {
+      position: relative;
+      z-index: 1;
+      padding-top: 72px;
+    }
+
+    /* ABOUT — TOP */
+    .about-section {
+      padding: 5rem 3rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-identity {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .about-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .about-tag::before {
+      content: '';
+      display: block;
+      width: 4px; height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 2.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.7); }
+    }
+
+    .about-name {
+      font-family: var(--heading);
+      font-size: clamp(4.5rem, 9vw, 8rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+
+    .about-name .x { color: var(--accent); }
+
+    .about-role {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 380px;
+    }
+
+    .about-ctas {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.7rem 1.5rem;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      font-weight: 400;
+      transition: background 0.2s, transform 0.15s;
+      border-radius: 2px;
+    }
+
+    .btn-primary:hover { background: #e03d10; transform: translateY(-1px); }
+
+    .btn-ghost {
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 0.75rem 1.75rem;
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: border-color 0.2s, transform 0.15s;
+      border-radius: 2px;
+    }
+
+    .btn-ghost:hover { border-color: rgba(0,0,0,0.3); transform: translateY(-1px); }
+
+    /* ABOUT RIGHT — CARDS */
+    .about-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      margin-top: 0.5rem;
+    }
+
+    .about-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .about-card:hover {
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .card-icon {
+      font-size: 1.2rem;
+      width: 38px; height: 38px;
+      background: var(--surface2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-info p:first-child {
+      font-size: 0.88rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .card-info p:last-child {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    /* SKILLS STRIP */
+    .skills-strip {
+      margin: 3.5rem 0 0;
+      padding-top: 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .skills-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+
+    .skills-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .pill.hot {
+      background: rgba(255,77,28,0.08);
+      border-color: rgba(255,77,28,0.25);
+      color: var(--accent);
+    }
+
+    /* DIVIDER */
+    .section-divider {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .section-divider-num {
+      font-family: var(--body);
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .section-divider-title {
+      font-family: var(--heading);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    .section-divider-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border2);
+    }
+
+    /* MAPS */
+    .maps-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+    }
+
+    .maps-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      margin-top: 2rem;
+    }
+
+    .map-card {
+      background: var(--surface);
+      padding: 0;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .map-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+
+    .map-thumb {
+      width: 100%;
+      aspect-ratio: 21/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+
+    .map-card-body {
+      padding: 1.25rem 1.75rem 1.5rem;
+    }
+
+    .map-card:nth-child(1) .map-thumb { background: #000; }
+    .map-card:nth-child(2) .map-thumb { background: #000; }
+    .map-card:nth-child(3) .map-thumb { background: #000; }
+    .map-card:nth-child(4) .map-thumb { background: #000; }
+
+    .map-thumb-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .map-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.02em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      color: var(--muted);
+    }
+
+    .tag.hot { border-color: rgba(255,77,28,0.3); color: var(--accent); background: rgba(255,77,28,0.05); }
+    .tag.warm { border-color: rgba(255,184,0,0.35); color: #B87800; background: rgba(255,184,0,0.06); }
+
+    .map-name {
+      font-family: var(--heading);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .map-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .map-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .map-meta-label { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .map-meta-val { font-size: 0.84rem; color: var(--text); margin-top: 2px; font-weight: 500; }
+
+    /* CONTACT */
+    .contact-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .contact-inner {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      border-radius: 4px;
+    }
+
+    .contact-left h2 {
+      font-family: var(--heading);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .contact-left h2 span { color: var(--accent); }
+    .contact-left p { color: var(--muted); font-size: 0.9rem; line-height: 1.8; }
+
+    .contact-links { display: flex; flex-direction: column; gap: 1px; }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.25rem;
+      background: var(--surface2);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.88rem;
+      transition: background 0.2s;
+      border-radius: 2px;
+    }
+
+    .contact-link:hover { background: #111113; }
+
+    .link-label { color: var(--muted); font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 2px; }
+
+    .arrow { color: var(--accent); transition: transform 0.2s; font-size: 0.9rem; }
+    .contact-link:hover .arrow { transform: translateX(4px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 100%;
+    }
+
+    .footer-logo { font-family: var(--heading); font-size: 1.2rem; letter-spacing: 0.06em; color: var(--muted); }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy { font-size: 0.72rem; color: var(--muted); }
+
+    .about-heading {
+      font-family: var(--heading);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    /* GOOD MAP SECTION */
+    .goodmap-section {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 5rem;
+    }
+
+    .goodmap-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .goodmap-card {
+      background: var(--surface);
+      padding: 2.5rem 3rem;
+      transition: background 0.2s;
+      position: relative;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .goodmap-card:hover { background: var(--surface2); }
+
+    .goodmap-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.3s;
+    }
+
+    .goodmap-card:hover::before { transform: scaleY(1); }
+
+    .goodmap-title {
+      font-family: var(--heading);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+
+    .goodmap-desc {
+      font-size: 0.88rem;
+      color: #4a4946;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .goodmap-card { grid-template-columns: 1fr; gap: 0.75rem; padding: 1.75rem; }
+    }
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      .about-section, .maps-section, .contact-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .section-divider { padding: 0 1.5rem; }
+      .about-top { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-inner { grid-template-columns: 1fr; padding: 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- BACKGROUND -->
+  <div class="bg-canvas"></div>
+
+  <!-- NAV -->
+  <nav>
+    <ul>
+      <li><a href="#work">Work</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ABOUT -->
+    <section class="about-section">
+      <div class="about-top">
+
+        <div class="about-identity reveal">
+          <div class="about-tag">Hammer++ Level Designer</div>
+          <h2 class="about-heading">About Me</h2>
+          <p class="about-role">
+            Hey! My name is Blixer<br><br>
+            I've been mapping since June of 2024, understanding the engine bit by bit, slowly learning what makes a map truly realistic. I started with making extremely small projects, building up to much bigger and more in-depth projects.
+          </p>
+          <div class="about-ctas">
+            <a href="#work" class="btn-primary">View My Maps</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="skills-strip reveal">
+        <p class="skills-label">Skills & Tools</p>
+        <div class="skills-pills">
+          <span class="pill">Hammer++</span>
+          <span class="pill">Source Engine</span>
+          <span class="pill">VTF Edit</span>
+          <span class="pill">Env Lighting</span>
+          <span class="pill">Optimization</span>
+          <span class="pill">Displacements</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT MAKES A GOOD MAP -->
+    <div class="section-divider reveal" style="max-width:1400px; margin: 0 auto; padding: 0 2rem 0;">
+      <h2 class="section-divider-title">What Makes a Good Map</h2>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <section class="goodmap-section">
+      <div class="goodmap-grid">
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Realistic Layout</h3>
+          <p class="goodmap-desc">Spaces need to make sense and every room should have a reason to exist. If you can't explain why something is there, it probably shouldn't be.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Lighting</h3>
+          <p class="goodmap-desc">Lighting is incredibly important in a map. It sets the overall feel for the entire map, if the lighting is bad, it completely ruins the immersion for players.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Roleplay Potential</h3>
+          <p class="goodmap-desc">A locked room, a messy desk or area, a hole in a wall leading to somewhere unexpected, all help make the players feel more immersed within the map, and helps create a story and an in-depth background to the map.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Optimization</h3>
+          <p class="goodmap-desc">If not one of the most important things, if the map has terrible performance, it not only ruins aspects such as combat and immersion, but the overall quality of the entire server.</p>
+        </div>
+
+        <div class="goodmap-card reveal">
+          <h3 class="goodmap-title">Detail</h3>
+          <p class="goodmap-desc">Small things really add up to make the server feel truly realistic. Things like smudges on the wall, flickering lights, stains on the ground, all help create a background and a story to the environment.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- MAPS -->
+    <div class="section-divider reveal" id="work">
+      <h2 class="section-divider-title">Project Showcase</h2>
+      <div class="section-divider-line"></div>
+    </div>
+
+    <section class="maps-section">
+      <div class="maps-grid">
+
+        <div class="map-card reveal">
+          <div class="map-thumb">
+            <img src="storage_sector.png" alt="Storage Sector" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <div class="map-card-body">
+            <h3 class="map-name">Storage Sector</h3>
+          </div>
+        </div>
+
+        <div class="map-card reveal">
+          <div class="map-thumb">
+            <img src="nature_substation.png" alt="Nature Substation" style="width:100%;height:100%;object-fit:cover;" />
+          </div>
+          <div class="map-card-body">
+            <h3 class="map-name">Nature Substation</h3>
+          </div>
+        </div>
+
+        <div class="map-card reveal">
+          <div class="map-thumb">
+            <span class="map-thumb-label">In Progress</span>
+          </div>
+          <div class="map-card-body">
+            <h3 class="map-name">In Progress</h3>
+          </div>
+        </div>
+
+        <div class="map-card reveal">
+          <div class="map-thumb">
+            <span class="map-thumb-label">In Progress</span>
+          </div>
+          <div class="map-card-body">
+            <h3 class="map-name">In Progress</h3>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="footer-copy">© 2025 Blixer · Hammer++ Level Designer · GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 70);
+        }
+      });
+    }, { threshold: 0.08 });
+    els.forEach(el => obs.observe(el));
+
+    // Dust particles
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles;
+
+    function resize() {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+
+    function makeParticle() {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 0.18 + 0.04;
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.0 + 0.2,
+        opacity: Math.random() * 0.55 + 0.08,
+        speedX: Math.cos(angle) * speed,
+        speedY: Math.sin(angle) * speed,
+        life: Math.floor(Math.random() * 500),
+        maxLife: Math.random() * 600 + 400,
+      };
+    }
+
+    function init() {
+      resize();
+      particles = Array.from({ length: 220 }, makeParticle);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach((p, i) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life++;
+
+        const fade = p.life < 80
+          ? p.life / 80
+          : p.life > p.maxLife - 80
+            ? (p.maxLife - p.life) / 80
+            : 1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * fade})`;
+        ctx.fill();
+
+        if (p.life >= p.maxLife || p.x < -20 || p.x > W + 20 || p.y < -20 || p.y > H + 20) {
+          particles[i] = makeParticle();
+          particles[i].life = 0;
+        }
+      });
+      requestAnimationFrame(draw);
+    }
+
+    init();
+    draw();
+    window.addEventListener('resize', () => { resize(); });
+  </script>
+</body>
+</html>
