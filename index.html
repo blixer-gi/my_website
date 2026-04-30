@@ -11,9 +11,9 @@
     :root {
       --accent: #c94a1a;
       --accent2: #c49000;
-      --bg: #0C0C0E;
-      --surface: #141416;
-      --surface2: #1C1C1F;
+      --bg: #000000;
+      --surface: #0a0a0a;
+      --surface2: #111113;
       --border: rgba(255,255,255,0.06);
       --border2: rgba(255,255,255,0.1);
       --text: #D8D6D2;
@@ -34,58 +34,9 @@
       min-height: 100vh;
     }
 
-    /* DARK BACKGROUND EFFECTS */
+    /* BACKGROUND */
     .bg-canvas {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .bg-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-    }
-
-    .bg-orb-1 {
-      width: 800px; height: 800px;
-      top: -300px; right: -200px;
-      background: radial-gradient(circle, rgba(255,77,28,0.14) 0%, transparent 70%);
-    }
-
-    .bg-orb-2 {
-      width: 700px; height: 700px;
-      bottom: 0%; left: -250px;
-      background: radial-gradient(circle, rgba(255,184,0,0.11) 0%, transparent 70%);
-    }
-
-    .bg-orb-3 {
-      width: 600px; height: 600px;
-      top: 40%; left: 30%;
-      background: radial-gradient(circle, rgba(80,120,255,0.09) 0%, transparent 70%);
-    }
-
-    .bg-orb-4 {
-      width: 500px; height: 500px;
-      top: 70%; right: 10%;
-      background: radial-gradient(circle, rgba(255,77,28,0.08) 0%, transparent 70%);
-    }
-
-    .bg-orb-5 {
-      width: 450px; height: 450px;
-      top: 20%; left: 15%;
-      background: radial-gradient(circle, rgba(120,60,255,0.07) 0%, transparent 70%);
-    }
-
-    .bg-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 56px 56px;
+      display: none;
     }
 
     #particle-canvas {
@@ -104,7 +55,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 1.1rem 3rem;
-      background: rgba(12,12,14,0.85);
+      background: rgba(0,0,0,0.9);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
@@ -354,37 +305,35 @@
 
     /* MAPS */
     .maps-section {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem 2rem 5rem;
+      padding: 2rem 3rem 6rem;
     }
 
     .maps-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      background: var(--border);
-      border: 1px solid var(--border);
+      grid-template-columns: 1fr;
+      gap: 3rem;
       margin-top: 2rem;
     }
 
     .map-card {
       background: var(--surface);
       padding: 0;
-      transition: background 0.2s, box-shadow 0.2s;
+      transition: transform 0.25s, box-shadow 0.25s;
       position: relative;
       overflow: hidden;
+      border: 1px solid var(--border);
     }
 
     .map-card:hover {
-      background: #1a1a1d;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      z-index: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
     }
 
     .map-thumb {
       width: 100%;
-      aspect-ratio: 16/8;
+      aspect-ratio: 21/9;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -393,13 +342,13 @@
     }
 
     .map-card-body {
-      padding: 1.5rem 1.75rem 1.75rem;
+      padding: 1.25rem 1.75rem 1.5rem;
     }
 
-    .map-card:nth-child(1) .map-thumb { background: linear-gradient(135deg, #1a0a05 0%, #2d1208 100%); }
-    .map-card:nth-child(2) .map-thumb { background: linear-gradient(135deg, #05080f 0%, #0a1428 100%); }
-    .map-card:nth-child(3) .map-thumb { background: linear-gradient(135deg, #080f08 0%, #0f1f0f 100%); }
-    .map-card:nth-child(4) .map-thumb { background: linear-gradient(135deg, #0f0510 0%, #1e0a20 100%); }
+    .map-card:nth-child(1) .map-thumb { background: #000; }
+    .map-card:nth-child(2) .map-thumb { background: #000; }
+    .map-card:nth-child(3) .map-thumb { background: #000; }
+    .map-card:nth-child(4) .map-thumb { background: #000; }
 
     .map-thumb-label {
       font-size: 0.7rem;
@@ -609,14 +558,7 @@
   <canvas id="particle-canvas"></canvas>
 
   <!-- BACKGROUND -->
-  <div class="bg-canvas">
-    <div class="bg-grid"></div>
-    <div class="bg-orb bg-orb-1"></div>
-    <div class="bg-orb bg-orb-2"></div>
-    <div class="bg-orb bg-orb-3"></div>
-    <div class="bg-orb bg-orb-4"></div>
-    <div class="bg-orb bg-orb-5"></div>
-  </div>
+  <div class="bg-canvas"></div>
 
   <!-- NAV -->
   <nav>
@@ -772,21 +714,23 @@
     }
 
     function makeParticle() {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 0.18 + 0.04;
       return {
         x: Math.random() * W,
         y: Math.random() * H,
-        r: Math.random() * 1.4 + 0.3,
-        opacity: Math.random() * 0.35 + 0.05,
-        speedX: (Math.random() - 0.5) * 0.18,
-        speedY: -(Math.random() * 0.12 + 0.04),
-        life: 0,
-        maxLife: Math.random() * 400 + 200,
+        r: Math.random() * 1.0 + 0.2,
+        opacity: Math.random() * 0.55 + 0.08,
+        speedX: Math.cos(angle) * speed,
+        speedY: Math.sin(angle) * speed,
+        life: Math.floor(Math.random() * 500),
+        maxLife: Math.random() * 600 + 400,
       };
     }
 
     function init() {
       resize();
-      particles = Array.from({ length: 140 }, makeParticle);
+      particles = Array.from({ length: 220 }, makeParticle);
     }
 
     function draw() {
@@ -796,10 +740,10 @@
         p.y += p.speedY;
         p.life++;
 
-        const fade = p.life < 60
-          ? p.life / 60
-          : p.life > p.maxLife - 60
-            ? (p.maxLife - p.life) / 60
+        const fade = p.life < 80
+          ? p.life / 80
+          : p.life > p.maxLife - 80
+            ? (p.maxLife - p.life) / 80
             : 1;
 
         ctx.beginPath();
@@ -807,9 +751,9 @@
         ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * fade})`;
         ctx.fill();
 
-        if (p.life >= p.maxLife || p.y < -10 || p.x < -10 || p.x > W + 10) {
+        if (p.life >= p.maxLife || p.x < -20 || p.x > W + 20 || p.y < -20 || p.y > H + 20) {
           particles[i] = makeParticle();
-          particles[i].y = H + 5;
+          particles[i].life = 0;
         }
       });
       requestAnimationFrame(draw);
