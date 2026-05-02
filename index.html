@@ -339,7 +339,46 @@
       justify-content: center;
       overflow: hidden;
       margin-bottom: 0;
+      cursor: pointer;
     }
+
+    .map-thumb:hover img { opacity: 0.85; transition: opacity 0.2s; }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.95);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      box-shadow: 0 0 80px rgba(0,0,0,1);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.4);
+      background: none;
+      border: none;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .lightbox-close:hover { color: #fff; }
 
     .map-card-body {
       padding: 1.25rem 1.75rem 1.5rem;
@@ -678,11 +717,40 @@
 
   </main>
 
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" />
+  </div>
+
   <footer>
     <p class="footer-copy">© 2025 Blixer · Hammer++ Level Designer · GitHub Pages</p>
   </footer>
 
   <script>
+    // Lightbox
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    document.querySelectorAll('.map-thumb img').forEach(img => {
+      img.addEventListener('click', () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    lightbox.addEventListener('click', closeLightbox);
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxImg.addEventListener('click', e => e.stopPropagation());
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
     // Scroll reveal
     const els = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver((entries) => {
